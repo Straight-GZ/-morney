@@ -1,16 +1,16 @@
 <template>
   <nav>
-    <router-link class='item' to="/money">
+    <router-link class='item' active-class="selected" to="/money">
       <Icons name="money"/>
       记账
     </router-link>
 
-    <router-link class='item' to="/labels">
+    <router-link class='item' active-class="selected" to="/labels">
       <Icons name="label"/>
       标签
     </router-link>
 
-    <router-link class="item" to="/statistics">
+    <router-link class="item" active-class="selected" to="/statistics">
       <Icons name="statistics"/>
       统计
     </router-link>
@@ -41,6 +41,9 @@ nav {
       width: 32px;
       height: 32px;
     }
+  }
+  >.item.selected{
+    color:red;
   }
 }
 </style>
