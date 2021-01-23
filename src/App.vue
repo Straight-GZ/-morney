@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <router-view/>
   </div>
 </template>
@@ -14,5 +14,6 @@ body {
   line-height: 1.5;
   font-family: $font-hei;
   color: #333;
+  font-size: 16px;
 }
 </style>
