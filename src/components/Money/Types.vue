@@ -1,14 +1,29 @@
 <template>
   <div class="types">
-    <button class="selected">支出</button>
-    <button>收入</button>
+    <button :class="type==='-'&& 'selected'" @click="selectType('-')">支出</button>
+    <button :class="type==='+'&& 'selected'" @click="selectType('+')">收入</button>
   </div>
 
 </template>
 
-<script lang="ts">
+<script>
 export default {
-name: "Types"
+  name: 'Types',
+  props:['xxx'],
+  mounted() {console.log(this.xxx)},
+  data() {
+    return {
+      type: '-'  //'-'表示支出 '+'表示收入
+    }
+  },
+  methods: {
+    selectType(type) {
+      if (type !== '-' && type !== '+') {
+        throw new Error('type is unknown')
+      }
+      this.type = type
+    }
+  }
 }
 </script>
 
