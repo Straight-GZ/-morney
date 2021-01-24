@@ -1,34 +1,87 @@
 <template>
   <div class="numberPad">
-    <div class="output">100</div>
+    <div class="output">{{ output }}</div>
     <div class="buttons">
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>+</button>
-      <button>删除</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>-</button>
-      <button>清空</button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button>×</button>
+      <button @click="inputContent">1</button>
+      <button @click="inputContent">2</button>
+      <button @click="inputContent">3</button>
+      <button @click="add">+</button>
+      <button @click="output=output.slice(0,-1)||'0'">删除</button>
+      <button @click="inputContent">4</button>
+      <button @click="inputContent">5</button>
+      <button @click="inputContent">6</button>
+      <button @click="add">-</button>
+      <button @click="output='0'">清空</button>
+      <button @click="inputContent">7</button>
+      <button @click="inputContent">8</button>
+      <button @click="inputContent">9</button>
+      <button @click="add">×</button>
       <button class="ok">OK</button>
-      <button>.</button>
-      <button>0</button>
-      <button>%</button>
-      <button>÷</button>
+      <button @click="inputContent">.</button>
+      <button @click="inputContent">0</button>
+      <button @click="equal">=</button>
+      <button @click="add">÷</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: "NumberPad"
-};
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+
+@Component
+export default class NumberPad extends Vue {
+  output = '0';
+  result = '0';
+  xxx = '';
+
+  inputContent(event: MouseEvent) {
+    const input = ((event.target as HTMLButtonElement).textContent as string);
+    if (this.xxx === '=') {
+      this.output = '0';
+      this.xxx = '';
+    }
+    if (this.output.length === 10) {return; }
+    if (this.output === '0' && '0123456789'.indexOf(input) >= 0) {
+      this.output = input;
+    } else if (this.output.indexOf('.') >= 0 && input === '.') {
+      return;
+    } else {
+      this.output += input;
+    }
+  }
+
+  add(e: MouseEvent) {
+    this.xxx = ((e.target as HTMLButtonElement).textContent as string);
+    this.result = this.output;
+    this.output = '0';
+  }
+
+  equal() {
+
+    const resultNum = Number(this.result);
+    const outputNum = Number(this.output);
+    // const yyy = (x: string) => {
+    //   let n = 0;
+    //   if (x === '+') { n = resultNum + outputNum;}
+    //   if (x === '-') { n = resultNum - outputNum;}
+    //   if (x === '×') { n = resultNum * outputNum;}
+    //   if (x === '÷') { n = resultNum / outputNum;}
+    //   return n.toString();
+    // };
+    if (this.xxx === '+') {
+      this.output = (resultNum + outputNum).toString();
+    } else if (this.xxx === '-') {
+      this.output = (resultNum - outputNum).toString();
+    } else if (this.xxx === '×') {
+      this.output = (resultNum * outputNum).toString();
+    } else if (this.xxx === '÷') {
+      this.output = (resultNum / outputNum).toString();
+    }
+    this.xxx = '=';
+    this.result = '0';
+  }
+}
 </script>
 
 <style lang="scss" scoped>
