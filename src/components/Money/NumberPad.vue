@@ -23,18 +23,18 @@
       <button>÷</button>
     </div>
   </div>
-
 </template>
 
 <script lang="ts">
 export default {
-name: "NumberPad"
-}
+  name: "NumberPad"
+};
 </script>
 
 <style lang="scss" scoped>
- @import "~@/assets/style/helper.scss";
-  .numberPad {
+@import "~@/assets/style/helper.scss";
+
+.numberPad {
   > .output {
     @extend %clearFix;
     @extend %innerShadow;
