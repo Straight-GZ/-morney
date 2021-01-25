@@ -1,6 +1,6 @@
 <template>
   <div class="tags">
-    <div class="new">
+    <div class="new" @click="addTag">
       <button>添加标签</button>
     </div>
     <ul class="current">
@@ -21,6 +21,16 @@ export default class Tags extends Vue {
   @Prop(Array) readonly dataSource: string[] | undefined;
   selectedTags: string[] = [];
 
+  addTag() {
+    const name = window.prompt('请输入标签');
+    if (name === '') {
+      window.alert('标签名不能为空');
+    } else if (name && name.indexOf(" ") >= 0) {
+      window.alert('标签名不能包含空格');
+    } else if (this.dataSource) {
+      this.$emit('update:dataSource', [...this.dataSource, name]);
+    }
+  }
 
   toggle(item: string) {
     const index = this.selectedTags.indexOf(item);
