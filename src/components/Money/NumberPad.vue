@@ -5,41 +5,42 @@
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
-      <button @click="add">+</button>
+      <button @click="Arithmetic">+</button>
       <button @click="output=output.slice(0,-1)||'0'">删除</button>
       <button @click="inputContent">4</button>
       <button @click="inputContent">5</button>
       <button @click="inputContent">6</button>
-      <button @click="add">-</button>
+      <button @click="Arithmetic">-</button>
       <button @click="output='0'">清空</button>
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="add">×</button>
-      <button class="ok">OK</button>
+      <button @click="Arithmetic">×</button>
+      <button @click="ok" class="ok">OK</button>
       <button @click="inputContent">.</button>
       <button @click="inputContent">0</button>
       <button @click="equal">=</button>
-      <button @click="add">÷</button>
+      <button @click="Arithmetic">÷</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
-  output = '0';
+  @Prop() readonly value!: string;
+  output = this.value;
   result = '0';
-  xxx = '';
+  type = '';
 
   inputContent(event: MouseEvent) {
     const input = ((event.target as HTMLButtonElement).textContent as string);
-    if (this.xxx === '=') {
+    if (this.type === '=') {
       this.output = '0';
-      this.xxx = '';
+      this.type = '';
     }
     if (this.output.length === 10) {return; }
     if (this.output === '0' && '0123456789'.indexOf(input) >= 0) {
@@ -51,8 +52,8 @@ export default class NumberPad extends Vue {
     }
   }
 
-  add(e: MouseEvent) {
-    this.xxx = ((e.target as HTMLButtonElement).textContent as string);
+  Arithmetic(e: MouseEvent) {
+    this.type = ((e.target as HTMLButtonElement).textContent as string);
     this.result = this.output;
     this.output = '0';
   }
@@ -69,17 +70,22 @@ export default class NumberPad extends Vue {
     //   if (x === '÷') { n = resultNum / outputNum;}
     //   return n.toString();
     // };
-    if (this.xxx === '+') {
+    if (this.type === '+') {
       this.output = (resultNum + outputNum).toString();
-    } else if (this.xxx === '-') {
+    } else if (this.type === '-') {
       this.output = (resultNum - outputNum).toString();
-    } else if (this.xxx === '×') {
+    } else if (this.type === '×') {
       this.output = (resultNum * outputNum).toString();
-    } else if (this.xxx === '÷') {
+    } else if (this.type === '÷') {
       this.output = (resultNum / outputNum).toString();
     }
-    this.xxx = '=';
+    this.type = '=';
     this.result = '0';
+  }
+
+  ok() {
+    this.equal();
+    this.$emit('update:value', this.output);
   }
 }
 </script>
