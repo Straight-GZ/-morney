@@ -20,7 +20,7 @@ import {Component, Prop} from 'vue-property-decorator';
 export default class Tags extends Vue {
   @Prop(Array) readonly dataSource: string[] | undefined;
   @Prop(Array) readonly value!: string[];
-  selectedTags: string[] = [];
+  selectedTags: string[] = this.value;
 
   addTag() {
     const name = window.prompt('请输入标签');

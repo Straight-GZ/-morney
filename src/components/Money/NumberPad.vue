@@ -62,14 +62,6 @@ export default class NumberPad extends Vue {
 
     const resultNum = Number(this.result);
     const outputNum = Number(this.output);
-    // const yyy = (x: string) => {
-    //   let n = 0;
-    //   if (x === '+') { n = resultNum + outputNum;}
-    //   if (x === '-') { n = resultNum - outputNum;}
-    //   if (x === '×') { n = resultNum * outputNum;}
-    //   if (x === '÷') { n = resultNum / outputNum;}
-    //   return n.toString();
-    // };
     if (this.type === '+') {
       this.output = (resultNum + outputNum).toString();
     } else if (this.type === '-') {
@@ -86,6 +78,7 @@ export default class NumberPad extends Vue {
   ok() {
     this.equal();
     this.$emit('update:value', this.output);
+    this.$emit('submit', this.output);
   }
 }
 </script>
