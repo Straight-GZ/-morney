@@ -1,7 +1,11 @@
 const key = 'tagList';
+type Tag = {
+  id: string;
+  name: string;
+}
 type TagListModel = {
-  data: string[];
-  fetch: () => string[];
+  data: Tag[];
+  fetch: () => Tag[];
   create: (name: string | null) => 'duplicate' | 'success' | 'space' | undefined;
   save: () => void;
 }
@@ -9,20 +13,21 @@ const tagListModel: TagListModel = {
   data: [],
   fetch() {
     this.data = JSON.parse(window.localStorage.getItem(key) || '[]');
-    if (this.data.length === 0) {this.data = ['衣', '食', '住', '行'];}
+    if (this.data.length === 0) {this.data = [{id: '衣', name: '衣'}];}
     console.log(this.data);
     return this.data;
   },
 
   create(name) {
-    if (name && this.data.indexOf(name) >= 0) {
+    const names = this.data.map(d => d.name);
+    if (name && names.indexOf(name) >= 0) {
       return 'duplicate';
     } else if (!name) {
       return;
     } else if (name && name.indexOf(" ") >= 0) {
       return 'space';
     } else {
-      this.data.push(name);
+      this.data.push({id: name, name: name});
       this.save();
       return 'success';
     }

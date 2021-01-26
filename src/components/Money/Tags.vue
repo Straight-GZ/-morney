@@ -25,7 +25,7 @@ export default class Tags extends Vue {
   addTag() {
     const name = window.prompt('请输入标签');
     if (name === '') {
-      window.alert('标签名不能为空');
+      return;
     } else if (name && name.indexOf(" ") >= 0) {
       window.alert('标签名不能包含空格');
     } else if (name === null) {

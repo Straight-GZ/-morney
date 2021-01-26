@@ -72,14 +72,14 @@ export default class NumberPad extends Vue {
       this.output = (resultNum / outputNum).toString();
     }
     this.type = '=';
-    this.result = '0';
+    this.result = this.output;
   }
 
   ok() {
     this.equal();
     this.$emit('update:value', this.output);
     this.$emit('submit', this.output);
-    this.output = '0';
+    this.output = this.result;
   }
 }
 </script>
