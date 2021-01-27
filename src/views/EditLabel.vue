@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="formContainer">
-      <FormItem name="标签名" placeholder="请输入新的标签名"/>
+      <FormItem :value='tag.name' name="标签名" placeholder="请输入新的标签名"/>
     </div>
     <Button>删除标签</Button>
   </div>
@@ -20,15 +20,17 @@ import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
 @Component({
-  components: {Button,  FormItem}
+  components: {Button, FormItem}
 })
 export default class LabelEdit extends Vue {
+  tag?: { id: string; name: string } = undefined;
+
   created() {
     const {id} = this.$route.params;
     tagListModel.fetch();
     const tag = tagListModel.data.filter(t => t.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag = tag;
     } else {
       this.$router.replace('/404');
     }
