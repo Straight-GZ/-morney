@@ -1,10 +1,10 @@
 <template>
   <div>
     <label class="notes">
-      <span>备注</span>
+      <span>{{ this.name }}</span>
       <input type="text" v-model="newValue"
              @input="onValueChanged"
-             placeholder="在这里输入备注">
+             :placeholder=this.placeholder>
     </label>
   </div>
 
@@ -15,8 +15,10 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
-export default class Notes extends Vue {
-  @Prop() readonly value!: string;
+export default class FormEdit extends Vue {
+  @Prop(String) readonly value!: string;
+  @Prop(String) readonly name!: string;
+  @Prop(String) readonly placeholder!: string;
   newValue: string = this.value;
 
   onValueChanged() {
