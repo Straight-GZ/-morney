@@ -15,6 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import tagListModel from '@/models/tagListModel';
 
 @Component
 export default class Tags extends Vue {
@@ -24,16 +25,17 @@ export default class Tags extends Vue {
 
   addTag() {
     const name = window.prompt('请输入标签');
-    if (name === '') {
-      return;
-    } else if (name && name.indexOf(" ") >= 0) {
-      window.alert('标签名不能包含空格');
-    } else if (name === null) {
-      return;
-    } else if (this.dataSource) {
-      this.$emit('update:dataSource', [...this.dataSource, name]);
+    const message = tagListModel.create(name);
+    if (message === 'success') {
+      window.alert('创建成功');
+      this.$emit('update:dataSource', tagListModel.data);
+    } else if (message === 'duplicate') {
+      window.alert('标签名重复');
+    } else if (message === 'space') {
+      window.alert('标签名不能有空格');
     }
   }
+
 
   toggle(item: string) {
     const index = this.selectedTags.indexOf(item);
@@ -49,6 +51,7 @@ export default class Tags extends Vue {
 
 <style lang="scss" scoped>
 .tags {
+  background: white;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;

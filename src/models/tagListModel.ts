@@ -18,7 +18,6 @@ const tagListModel: TagListModel = {
   },
 
   create(name) {
-    console.log('1222222222');
     const names = this.data.map(d => d.name);
     if (name && names.indexOf(name) >= 0) {
       return 'duplicate';

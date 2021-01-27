@@ -1,6 +1,7 @@
 <template>
   <div>
-    <label class="notes">
+    <label class="formItem">
+
       <span>{{ this.name }}</span>
       <input type="text" v-model="newValue"
              @input="onValueChanged"
@@ -15,13 +16,14 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
-export default class FormEdit extends Vue {
+export default class FormItem extends Vue {
   @Prop(String) readonly value!: string;
   @Prop(String) readonly name!: string;
   @Prop(String) readonly placeholder!: string;
-  newValue: string = this.value;
+  newValue = this.value;
 
   onValueChanged() {
+    console.log(this.value)
     this.$emit('update:value', this.newValue);
   }
 }
@@ -29,9 +31,8 @@ export default class FormEdit extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.notes {
+.formItem {
   font-size: 14px;
-  background: #f5f5f5;
   display: flex;
   align-items: center;
 
@@ -40,6 +41,7 @@ export default class FormEdit extends Vue {
   }
 
   > input {
+    height: 40px;
     background: transparent;
     padding: 16px 0;
     flex-grow: 1;
