@@ -14,7 +14,6 @@ const tagListModel: TagListModel = {
   fetch() {
     this.data = JSON.parse(window.localStorage.getItem(key) || '[]');
     if (this.data.length === 0) {this.data = [{id: '衣', name: '衣'}];}
-    console.log(this.data);
     return this.data;
   },
 
