@@ -7,19 +7,20 @@ type TagListModel = {
   data: Tag[];
   fetch: () => Tag[];
   create: (name: string | null) => 'duplicate' | 'success' | 'space' | undefined;
-  update: (id: string, name: string) => string;
-  remove: (id: string) => string;
+  update: (id: string, name: string) => 'duplicate' | 'success';
+  remove: (id: string) => boolean;
   save: () => void;
 }
 const tagListModel: TagListModel = {
   data: [],
   fetch() {
     this.data = JSON.parse(window.localStorage.getItem(key) || '[]');
-    if (this.data.length === 0) {this.data = [{id: '衣', name: '衣'}];}
+    // if (this.data.length === 0) {this.data = [{id: '衣', name: '衣'}];}
     return this.data;
   },
 
   create(name) {
+    console.log('create');
     const names = this.data.map(d => d.name);
     if (name && names.indexOf(name) >= 0) {
       return 'duplicate';
@@ -38,20 +39,23 @@ const tagListModel: TagListModel = {
     const names = this.data.map(d => d.name);
     if (names.indexOf(name) >= 0) {
       return 'duplicate';
-    } else if (item) {
+    } else {
       item.name = name;
       this.save();
       return 'success';
     }
   },
   remove(id: string) {
-    const item = this.data.filter(d => d.id === id)[0];
+    let index = -1;
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i].id === item.id) {
-        console.log(this.data.splice(i, 1))
+      if (this.data[i].id === id) {
+        index = i;
+        break;
       }
     }
-    return 'success';
+    this.data.splice(index, 1);
+    this.save();
+    return true;
   },
   save() {
     return window.localStorage.setItem(key, JSON.stringify(this.data));

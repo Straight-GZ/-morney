@@ -22,7 +22,7 @@ export default class FormItem extends Vue {
   @Prop(String) readonly placeholder!: string;
 
 
-  onValueChanged(value) {
+  onValueChanged(value: string) {
     this.$emit('update:value', value);
   }
 }

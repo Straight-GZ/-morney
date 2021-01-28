@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="navBar">
-      <Icons class="leftIcon" name="left"/>
+      <Icons @click.native="goBack" class="leftIcon" name="left"/>
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
@@ -41,14 +41,22 @@ export default class LabelEdit extends Vue {
 
   update(name: string) {
     if (this.tag) {
-      tagListModel.update(this.tag.id, name);
+      const bool = tagListModel.update(this.tag.id, name);
+      if (bool) {
+        window.alert('删除成功');
+      }
     }
   }
 
   remove() {
     if (this.tag) {
       tagListModel.remove(this.tag.id);
+      this.goBack();
     }
+  }
+
+  goBack() {
+    this.$router.back();
   }
 }
 </script>
