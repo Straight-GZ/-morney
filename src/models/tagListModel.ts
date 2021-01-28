@@ -1,3 +1,5 @@
+import createId from '@/lib/createId';
+
 const key = 'tagList';
 type Tag = {
   id: string;
@@ -29,7 +31,8 @@ const tagListModel: TagListModel = {
     } else if (name && name.indexOf(" ") >= 0) {
       return 'space';
     } else {
-      this.data.push({id: name, name: name});
+      const id = createId().toString();
+      this.data.push({id: id, name: name});
       this.save();
       return 'success';
     }
