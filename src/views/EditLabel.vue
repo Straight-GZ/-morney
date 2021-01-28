@@ -17,7 +17,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagListModel from '@/models/tagListModel';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
@@ -28,13 +27,8 @@ export default class LabelEdit extends Vue {
   tag?: { id: string; name: string } = undefined;
 
   created() {
-    const {id} = this.$route.params;
-    tagListModel.fetch();
-    const tag = tagListModel.data.filter(t => t.id === id)[0];
-
-    if (tag) {
-      this.tag = tag;
-    } else {
+    this.tag = window.findTag(this.$route.params.id);
+    if (!this.tag) {
       this.$router.replace('/404');
     }
   }

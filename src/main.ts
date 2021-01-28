@@ -16,7 +16,7 @@ Vue.component('Icons', Icons);
 
 window.tagList = tagListModel.fetch();
 window.findTag = (id: string) => {
-  return tagListModel.fetch().filter(d => d.id === id)[0];
+  return window.tagList.filter(d => d.id === id)[0];
 };
 window.createTag = (name) => {
   const message = tagListModel.create(name);
