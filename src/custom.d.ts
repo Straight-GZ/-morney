@@ -20,4 +20,6 @@ type TagListModel = {
 
 interface Window {
   tagList: tag[];
+  createTag: () => void;
+  removeTag: (tag: Tag) => boolean;
 }
