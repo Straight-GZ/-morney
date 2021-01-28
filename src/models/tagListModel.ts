@@ -30,7 +30,7 @@ const tagListModel: TagListModel = {
     const names = this.data.map(d => d.name);
     if (names.indexOf(name) >= 0) {
       return 'duplicate';
-    } else {
+    } else if (item) {
       item.name = name;
       this.save();
       return 'success';
