@@ -1,4 +1,5 @@
 import createId from '@/lib/createId';
+import store from '@/store/index2';
 
 const key = 'tagList';
 
@@ -26,7 +27,7 @@ const tagListModel: TagListModel = {
     }
   },
   update(id: string, name: string) {
-    const item = window.findTag(id);
+    const item = store.findTag(id);
     const names = this.data.map(d => d.name);
     if (names.indexOf(name) >= 0) {
       return 'duplicate';

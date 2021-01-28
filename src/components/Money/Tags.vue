@@ -1,20 +1,21 @@
 <template>
-  <div class="tags">
-    <div class="new" @click="addTag">
+  <div class = "tags">
+    <div class = "new" @click = "addTag">
       <button>添加标签</button>
     </div>
-    <ul class="current">
-      <li v-for="tag in dataSource" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)"
-          :key="tag.id">{{ tag.name }}
+    <ul class = "current">
+      <li v-for = "tag in dataSource" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag)"
+          :key = "tag.id">{{ tag.name }}
       </li>
     </ul>
   </div>
 
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import store from '@/store/index2';
 
 @Component
 export default class Tags extends Vue {
@@ -25,7 +26,7 @@ export default class Tags extends Vue {
   addTag() {
     const name = window.prompt('请输入标签');
     if (name) {
-      window.createTag(name);
+      store.createTag(name);
     }
   }
 
@@ -42,7 +43,7 @@ export default class Tags extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang = "scss" scoped>
 .tags {
   background: white;
   font-size: 14px;
