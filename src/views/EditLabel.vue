@@ -50,8 +50,9 @@ export default class LabelEdit extends Vue {
 
   remove() {
     if (this.tag) {
-      tagListModel.remove(this.tag.id);
-      this.goBack();
+      if (tagListModel.remove(this.tag.id)) {
+        this.goBack();
+      }
     }
   }
 
