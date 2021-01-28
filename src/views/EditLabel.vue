@@ -6,9 +6,11 @@
       <span class="rightIcon"></span>
     </div>
     <div class="formContainer">
-      <FormItem :value='tag.name' name="标签名" placeholder="请输入新的标签名"/>
+      <FormItem @update:value="update"
+                :value="tag.name"
+                name="标签名" placeholder="请输入新的标签名"/>
     </div>
-    <Button>删除标签</Button>
+    <Button @click="remove">删除标签</Button>
   </div>
 </template>
 
@@ -29,10 +31,23 @@ export default class LabelEdit extends Vue {
     const {id} = this.$route.params;
     tagListModel.fetch();
     const tag = tagListModel.data.filter(t => t.id === id)[0];
+
     if (tag) {
       this.tag = tag;
     } else {
       this.$router.replace('/404');
+    }
+  }
+
+  update(name: string) {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
+    }
+  }
+
+  remove() {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
     }
   }
 }

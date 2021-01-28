@@ -7,6 +7,8 @@ type TagListModel = {
   data: Tag[];
   fetch: () => Tag[];
   create: (name: string | null) => 'duplicate' | 'success' | 'space' | undefined;
+  update: (id: string, name: string) => string;
+  remove: (id: string) => string;
   save: () => void;
 }
 const tagListModel: TagListModel = {
@@ -30,6 +32,26 @@ const tagListModel: TagListModel = {
       this.save();
       return 'success';
     }
+  },
+  update(id: string, name: string) {
+    const item = this.data.filter(d => d.id === id)[0];
+    const names = this.data.map(d => d.name);
+    if (names.indexOf(name) >= 0) {
+      return 'duplicate';
+    } else if (item) {
+      item.name = name;
+      this.save();
+      return 'success';
+    }
+  },
+  remove(id: string) {
+    const item = this.data.filter(d => d.id === id)[0];
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].id === item.id) {
+        console.log(this.data.splice(i, 1))
+      }
+    }
+    return 'success';
   },
   save() {
     return window.localStorage.setItem(key, JSON.stringify(this.data));
