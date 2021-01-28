@@ -1,18 +1,7 @@
 import createId from '@/lib/createId';
 
 const key = 'tagList';
-type Tag = {
-  id: string;
-  name: string;
-}
-type TagListModel = {
-  data: Tag[];
-  fetch: () => Tag[];
-  create: (name: string | null) => 'duplicate' | 'success' | 'space' | undefined;
-  update: (id: string, name: string) => 'duplicate' | 'success';
-  remove: (id: string) => boolean;
-  save: () => void;
-}
+
 const tagListModel: TagListModel = {
   data: [],
   fetch() {
