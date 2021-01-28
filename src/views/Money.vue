@@ -3,7 +3,7 @@
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <div class="notes">
-      <FormItem name="备注" placeholder="请输入备注" :value="record.notes" @update:value="onNoteChange"/>
+      <FormItem name="备注" placeholder="请输入备注" :value.sync="record.notes"/>
     </div>
     <Tags :data-source.sync="tags" :value.sync="record.tags"/>
     {{ record }}
@@ -31,18 +31,13 @@ export default class Money extends Vue {
   recordList: RecordItem[] = recordList;
 
   saveRecord() {
-    const newRecord: RecordItem = recordListModel.clone(this.record);
-    newRecord.createdTime = new Date();
-    this.recordList.push(newRecord);
+    recordListModel.create(this.record);
   }
 
-  onNoteChange(note: string) {
-    this.record.notes = note;
-  }
-
+  
   @Watch('recordList')
   onRecordListChange() {
-    recordListModel.save(this.recordList);
+    recordListModel.save();
   }
 }
 </script>
