@@ -15,8 +15,10 @@ Vue.component('Layout', Layout);
 Vue.component('Icons', Icons);
 
 window.tagList = tagListModel.fetch();
-window.createTag = () => {
-
+window.findTag = (id: string) => {
+  return tagListModel.fetch().filter(d => d.id === id)[0];
+};
+window.createTag = (name) => {
   const message = tagListModel.create(name);
   if (message === 'success') {
     window.alert('创建成功');
@@ -25,6 +27,12 @@ window.createTag = () => {
   } else if (message === 'space') {
     window.alert('标签名不能有空格');
   }
+};
+window.removeTag = (id: string) => {
+  return tagListModel.remove(id);
+};
+window.updateTag = (id: string, name: string) => {
+  return tagListModel.update(id, name);
 };
 
 

@@ -41,17 +41,16 @@ export default class LabelEdit extends Vue {
 
   update(name: string) {
     if (this.tag) {
-      const bool = tagListModel.update(this.tag.id, name);
-      if (bool) {
-        window.alert('删除成功');
-      }
+      window.updateTag(this.tag.id, name);
     }
   }
 
   remove() {
     if (this.tag) {
-      if (tagListModel.remove(this.tag.id)) {
-        this.goBack();
+      const bool = window.removeTag(this.tag.id);
+      if (bool) {
+        window.alert('删除成功');
+        this.$router.back();
       }
     }
   }

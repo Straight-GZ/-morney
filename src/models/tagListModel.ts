@@ -11,7 +11,6 @@ const tagListModel: TagListModel = {
   },
 
   create(name) {
-    console.log('create');
     const names = this.data.map(d => d.name);
     if (name && names.indexOf(name) >= 0) {
       return 'duplicate';
@@ -27,7 +26,7 @@ const tagListModel: TagListModel = {
     }
   },
   update(id: string, name: string) {
-    const item = this.data.filter(d => d.id === id)[0];
+    const item = window.findTag(id);
     const names = this.data.map(d => d.name);
     if (names.indexOf(name) >= 0) {
       return 'duplicate';
@@ -42,7 +41,6 @@ const tagListModel: TagListModel = {
     for (let i = 0; i < this.data.length; i++) {
       if (this.data[i].id === id) {
         index = i;
-        break;
       }
     }
     this.data.splice(index, 1);
