@@ -5,7 +5,7 @@
     <div class = "notes">
       <FormItem name = "备注" placeholder = "请输入备注" :value.sync = "record.notes"/>
     </div>
-    <Tags :data-source.sync = "tags" :value.sync = "record.tags"/>
+    <Tags :value.sync = "record.tags"/>
   </Layout>
 </template>
 

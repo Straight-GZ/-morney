@@ -4,7 +4,7 @@
       <button>添加标签</button>
     </div>
     <ul class = "current">
-      <li v-for = "tag in dataSource" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag)"
+      <li v-for = "tag in tagList" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag)"
           :key = "tag.id">{{ tag.name }}
       </li>
     </ul>
@@ -19,9 +19,9 @@ import store from '@/store/index2';
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: string[] | undefined;
-  @Prop(Array) readonly value!: string[];
-  selectedTags: string[] = this.value;
+  @Prop(Array) readonly value!: Tag[];
+  selectedTags: Tag[] = this.value;
+  tagList = store.fetchTags();
 
   addTag() {
     const name = window.prompt('请输入标签');
@@ -31,7 +31,7 @@ export default class Tags extends Vue {
   }
 
 
-  toggle(item: string) {
+  toggle(item: Tag) {
     const index = this.selectedTags.indexOf(item);
     if (this.selectedTags.indexOf(item) >= 0) {
       this.selectedTags.splice(index, 1);
