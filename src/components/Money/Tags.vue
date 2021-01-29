@@ -15,18 +15,22 @@
 <script lang = "ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
-import store from '@/store/index2';
 
-@Component
+@Component({
+  computed: {
+    tagList() {
+      return this.$store.state.tagList;
+    }
+  }
+})
 export default class Tags extends Vue {
   @Prop(Array) readonly value!: Tag[];
   selectedTags: Tag[] = this.value;
-  tagList = store.fetchTags();
 
   create() {
     const name = window.prompt('请输入标签');
     if (name) {
-      store.createTag(name);
+      this.$store.commit('createTag', name);
     }
   }
 

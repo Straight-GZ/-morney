@@ -19,16 +19,22 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
-import store from '@/store/index2';
 
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
+  computed: {
+    tagList() {
+      return this.$store.state.tagList;
+    }
+  }
 })
 export default class LabelEdit extends Vue {
-  tag?: { id: string; name: string } = undefined;
+  tag: Tag = [];
 
   created() {
-    this.tag = store.findTag(this.$route.params.id);
+    this.$store.commit('fetchTags');
+    const id = this.$route.params.id;
+    this.tag = this.tagList.filter(d => d.id === id)[0];
     if (!this.tag) {
       this.$router.replace('/404');
     }
@@ -36,17 +42,14 @@ export default class LabelEdit extends Vue {
 
   update(name: string) {
     if (this.tag) {
-      store.updateTag(this.tag.id, name);
+      this.$store.commit('updateTag', {id: this.tag.id, name});
     }
   }
 
   remove() {
     if (this.tag) {
-      const bool = store.removeTag(this.tag.id);
-      if (bool) {
-        window.alert('删除成功');
-        this.$router.back();
-      }
+      this.$store.commit('removeTag', this.tag.id);
+      this.goBack();
     }
   }
 

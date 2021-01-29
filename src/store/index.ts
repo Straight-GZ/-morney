@@ -5,7 +5,7 @@ import createId from '@/lib/createId';
 
 Vue.use(Vuex);
 
-const myStore = new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
@@ -26,8 +26,33 @@ const myStore = new Vuex.Store({
       } else {
         const id = createId().toString();
         state.tagList.push({id: id, name: name});
-        myStore.commit('saveTags');
+        store.commit('saveTags');
         window.alert('创建成功');
+      }
+    },
+    removeTag(state, id: string) {
+      let index = -1;
+      for (let i = 0; i < state.tagList.length; i++) {
+        if (state.tagList[i].id === id) {
+          index = i;
+        }
+      }
+      state.tagList.splice(index, 1);
+      store.commit('saveTags', id);
+      return true;
+    },
+    saveTags(state) {
+      window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
+    },
+    updateTag(state, object: { id: string; name: string }) {
+      const {id, name} = object;
+      const tag = state.tagList.filter(d => d.id === id)[0];
+      const names = state.tagList.map(d => d.name);
+      if (names.indexOf(name) >= 0) {
+        window.alert('重复了');
+      } else if (tag) {
+        tag.name = name;
+        store.commit('saveTags');
       }
     },
     fetchRecords(state) {
@@ -37,11 +62,11 @@ const myStore = new Vuex.Store({
       const newRecord: RecordItem = clone(record);
       newRecord.createdTime = new Date();
       state.recordList?.push(newRecord);
-      myStore.commit('saveRecord');
+      store.commit('saveRecord');
     },
     saveRecord(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     }
   },
 });
-export default myStore;
+export default store;
