@@ -1,6 +1,6 @@
 <template>
   <div class = "tags">
-    <div class = "new" @click = "addTag">
+    <div class = "new" @click = "create">
       <button>添加标签</button>
     </div>
     <ul class = "current">
@@ -23,7 +23,7 @@ export default class Tags extends Vue {
   selectedTags: Tag[] = this.value;
   tagList = store.fetchTags();
 
-  addTag() {
+  create() {
     const name = window.prompt('请输入标签');
     if (name) {
       store.createTag(name);
@@ -31,12 +31,12 @@ export default class Tags extends Vue {
   }
 
 
-  toggle(item: Tag) {
-    const index = this.selectedTags.indexOf(item);
-    if (this.selectedTags.indexOf(item) >= 0) {
+  toggle(tag: Tag) {
+    const index = this.selectedTags.indexOf(tag);
+    if (this.selectedTags.indexOf(tag) >= 0) {
       this.selectedTags.splice(index, 1);
     } else {
-      this.selectedTags.push(item);
+      this.selectedTags.push(tag);
     }
     this.$emit('update:value', this.selectedTags);
   }
