@@ -1,7 +1,7 @@
 <template>
   <ul class="tabs">
     <li v-for="item in dataSource" :key="item.value" @click="select(item)"
-        :class="liClass(item)">{{ item.text }}
+        class="tabs-item" :class="liClass(item)">{{ item.text }}
     </li>
   </ul>
 </template>
@@ -22,11 +22,11 @@ export default class Tabs extends Vue {
     return {
       [this.classPrefix + '-tabs-item']: this.classPrefix,
       selected: item.value === this.value
-    }
+    };
   }
 
   select(item: DataSourceItem) {
-    this.$emit('update:value', item.value)
+    this.$emit('update:value', item.value);
   }
 }
 </script>
@@ -36,7 +36,7 @@ export default class Tabs extends Vue {
   display: flex;
   font-size: 24px;
 
-  > li {
+  &-item {
     background: #c4c4c4;
     width: 50%;
     height: 64px;

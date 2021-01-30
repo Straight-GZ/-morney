@@ -1,5 +1,5 @@
 <template>
-  <div class="x">
+  <div>
     <Layout>
       <Tabs class-prefix="types" :data-source="typeList" :value.sync="type"/>
       <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
@@ -26,7 +26,7 @@ export default class Statistics extends Vue {
 }
 </script>
 <style scoped lang="scss">
-.x ::v-deep .types-tabs-item {
+::v-deep .types-tabs-item {
   border: 1px solid red;
   background: white;
 
@@ -37,5 +37,9 @@ export default class Statistics extends Vue {
       display: none;
     }
   }
+}
+
+::v-deep .interval-tabs-item {
+  height: 48px;
 }
 </style>
