@@ -14,15 +14,18 @@
 
 <script lang = "ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly value!: Tag[];
-  selectedTags: Tag[] = this.value;
+  selectedTags: Tag[] = [];
 
   get tagList() {
     return this.$store.state.tagList;
+  }
+
+  created() {
+    this.$store.commit('fetchTags');
   }
 
   create() {
@@ -38,7 +41,6 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag);
     }
-    this.$emit('update:value', this.selectedTags);
   }
 }
 </script>

@@ -8,7 +8,6 @@
       </RouterLink>
     </div>
     <Button @click = "createTag">新建标签</Button>
-    {{ recordList }}
   </Layout>
 </template>
 
