@@ -15,12 +15,12 @@
 import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
 import {mixins} from 'vue-class-component';
-import createTag from '@/mixins/mixins';
+import TagHelper from '@/mixins/mixins';
 
 @Component({
   components: {Button},
 })
-export default class Labels extends mixins(createTag) {
+export default class Labels extends mixins(TagHelper) {
   get tags() {
     return this.$store.state.tagList;
   }

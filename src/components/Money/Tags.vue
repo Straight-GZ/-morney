@@ -15,10 +15,10 @@
 <script lang = "ts">
 import {Component} from 'vue-property-decorator';
 import {mixins} from 'vue-class-component';
-import createTag from '@/mixins/mixins';
+import TagHelper from '@/mixins/mixins';
 
 @Component
-export default class Tags extends mixins(createTag) {
+export default class Tags extends mixins(TagHelper) {
   selectedTags: Tag[] = [];
 
   get tagList() {
