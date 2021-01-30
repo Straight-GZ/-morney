@@ -23,7 +23,7 @@ import Button from '@/components/Button.vue';
 @Component({
   components: {Button, FormItem},
 })
-export default class LabelEdit extends Vue {
+export default class EditLabel extends Vue {
   get tag() {
     return this.$store.state.currentTag;
   }
