@@ -8,6 +8,7 @@
       </RouterLink>
     </div>
     <Button @click = "createTag">新建标签</Button>
+    {{ recordList }}
   </Layout>
 </template>
 
@@ -18,14 +19,11 @@ import Button from '@/components/Button.vue';
 
 @Component({
   components: {Button},
-  computed: {
-    tags() {
-      return this.$store.state.tagList;
-    }
-  }
-
 })
 export default class Labels extends Vue {
+  get tags() {
+    return this.$store.state.tagList;
+  }
 
   created() {
     this.$store.commit('fetchTags');
@@ -34,9 +32,7 @@ export default class Labels extends Vue {
 
   createTag() {
     const name = window.prompt('请输入标签名');
-    if (name) {
-      this.$store.commit('createTag', name);
-    }
+    this.$store.commit('createTag', name);
   }
 }
 

@@ -4,26 +4,33 @@ import clone from '@/lib/clone';
 import createId from '@/lib/createId';
 
 Vue.use(Vuex);
-
+type RootStore = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  currentTag?: Tag;
+}
 const store = new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
-  },
+    currentTag: undefined,
+  } as RootStore,
   mutations: {
+    setCurrentTag(state, id: string) {
+      state.currentTag = state.tagList.filter(d => d.id === id)[0];
+    },
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
-      // if (this.data.length === 0) {this.data = [{id: '衣', name: '衣'}];}
     },
     createTag(state, name: string) {
       const names = state.tagList.map(d => d.name);
       if (name && names.indexOf(name) >= 0) {
         window.alert('标签名重复');
-      } else if (!name) {
-        window.alert('不存在');
+      } else if (name === "") {
+        window.alert('不能为空');
       } else if (name && name.indexOf(" ") >= 0) {
         window.alert('标签名不能有空格');
-      } else {
+      } else if (name) {
         const id = createId().toString();
         state.tagList.push({id: id, name: name});
         store.commit('saveTags');

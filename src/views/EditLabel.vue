@@ -22,19 +22,15 @@ import Button from '@/components/Button.vue';
 
 @Component({
   components: {Button, FormItem},
-  computed: {
-    tagList() {
-      return this.$store.state.tagList;
-    }
-  }
 })
 export default class LabelEdit extends Vue {
-  tag: Tag = [];
+  get tag() {
+    return this.$store.state.currentTag;
+  }
 
   created() {
-    this.$store.commit('fetchTags');
     const id = this.$route.params.id;
-    this.tag = this.tagList.filter(d => d.id === id)[0];
+    this.$store.commit('setCurrentTag', id);
     if (!this.tag) {
       this.$router.replace('/404');
     }
