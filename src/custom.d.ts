@@ -1,12 +1,17 @@
+type RootStore = {
+	recordList: RecordItem[];
+	tagList: Tag[];
+	currentTag?: Tag;
+}
 type RecordItem = {
-  tags: string[];
-  type: string;
-  notes: string;
-  amount: string;
-  createdTime?: Date;
+	tags: Tag[];
+	type: string;
+	notes: string;
+	amount: string;
+	createdAt: string;
 }
 type Tag = {
-  id: string;
-  name: string;
+	id: string;
+	name: string;
 }
 

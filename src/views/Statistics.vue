@@ -1,14 +1,64 @@
 <template>
   <div>
     <Layout>
-      <Tabs class-prefix="types" :data-source="typeList" :value.sync="type"/>
-      <Tabs height="48px" class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
+      <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
+      <Tabs class-prefix = "interval" :data-source = "intervalList" :value.sync = "interval"/>
+      type:{{ type }}
+      <br>
+      interval:{{ interval }}
+      <ol>
+        <li v-for = "(group,index) in result" :key = "index">
+          <h3 class = 'title'>{{ group.title }}</h3>
+          <ol>
+            <li class = "record" v-for = "item in group.items" :key = "item.id">
+              <span>{{ tagString(item.tags) }}</span>
+              <span class = "notes">{{ item.notes }}</span>
+              <span>￥{{ item.amount }}</span>
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <ol>
+        <li v-for = "(group,index) in result" :key = "index">
+          <h3 class = 'title'>{{ group.title }}</h3>
+          <ol>
+            <li class = "record" v-for = "item in group.items" :key = "item.id">
+              <span>{{ tagString(item.tags) }}</span>
+              <span class = "notes">{{ item.notes }}</span>
+              <span>￥{{ item.amount }}</span>
+            </li>
+          </ol>
+        </li>
+      </ol>
     </Layout>
   </div>
 </template>
+<style lang = "scss" scoped>
+%item {
+  padding: 8px 16px;
+  line-height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.title {
+  @extend %item;
+}
 
-<script lang="ts">
+.record {
+  @extend %item;
+  background: white;
+}
+
+.notes {
+  margin-right: auto;
+  margin-left: 16px;
+  color: #999;
+}
+</style>
+
+<script lang = "ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
@@ -23,9 +73,35 @@ export default class Statistics extends Vue {
   interval = 'd';
   typeList = recordTypeList;
   intervalList = intervalList;
+
+  tagString(tags: Tag[]) {
+    return tags.length === 0 ? '无' : tags.join(',');
+  }
+
+  beforeCreate() {
+    this.$store.commit('fetchRecords');
+  }
+
+  get recordList() {
+    return (this.$store.state as RootStore).recordList;
+  }
+
+  get result() {
+    type Items = RecordItem[]
+    type HashTableValue = { title: string; items: Items }
+    const {recordList} = this;
+    const hashTable: { [key: string]: HashTableValue } = {};
+    for (let i = 0; i < recordList.length; i++) {
+      const [date, time] = recordList[i].createdAt.split('T');
+      hashTable[date] = hashTable[date] || {title: date, items: []};
+      hashTable[date].items.push(recordList[i]);
+
+    }
+    return hashTable;
+  }
 }
 </script>
-<style scoped lang="scss">
+<style scoped lang = "scss">
 ::v-deep {
   .types-tabs-item {
     border: 1px solid red;
