@@ -1,38 +1,38 @@
 <template>
-  <div class="numberPad">
-    <div class="output">{{ output }}</div>
-    <div class="buttons">
-      <button @click="inputContent">1</button>
-      <button @click="inputContent">2</button>
-      <button @click="inputContent">3</button>
-      <button @click="Arithmetic">+</button>
-      <button @click="output=output.slice(0,-1)||'0'">删除</button>
-      <button @click="inputContent">4</button>
-      <button @click="inputContent">5</button>
-      <button @click="inputContent">6</button>
-      <button @click="Arithmetic">-</button>
-      <button @click="output='0'">清空</button>
-      <button @click="inputContent">7</button>
-      <button @click="inputContent">8</button>
-      <button @click="inputContent">9</button>
-      <button @click="Arithmetic">×</button>
-      <button @click="ok" class="ok">OK</button>
-      <button @click="inputContent">.</button>
-      <button @click="inputContent">0</button>
-      <button @click="equal">=</button>
-      <button @click="Arithmetic">÷</button>
+  <div class = "numberPad">
+    <div class = "output">{{ output }}</div>
+    <div class = "buttons">
+      <button @click = "inputContent">1</button>
+      <button @click = "inputContent">2</button>
+      <button @click = "inputContent">3</button>
+      <button @click = "Arithmetic">+</button>
+      <button @click = "output=output.slice(0,-1)||'0'">删除</button>
+      <button @click = "inputContent">4</button>
+      <button @click = "inputContent">5</button>
+      <button @click = "inputContent">6</button>
+      <button @click = "Arithmetic">-</button>
+      <button @click = "output='0'">清空</button>
+      <button @click = "inputContent">7</button>
+      <button @click = "inputContent">8</button>
+      <button @click = "inputContent">9</button>
+      <button @click = "Arithmetic">×</button>
+      <button @click = "ok" class = "ok">OK</button>
+      <button @click = "inputContent">.</button>
+      <button @click = "inputContent">0</button>
+      <button @click = "equal">=</button>
+      <button @click = "Arithmetic">÷</button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
   @Prop() readonly value!: string;
-  output = this.value;
+  output = this.value.toString();
   result = '0';
   type = '';
 
@@ -77,14 +77,14 @@ export default class NumberPad extends Vue {
 
   ok() {
     this.equal();
-    this.$emit('update:value', this.output);
-    this.$emit('submit', this.output);
+    this.$emit('update:value', parseFloat(this.output));
+    this.$emit('submit', parseFloat(this.output));
     this.output = this.result;
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang = "scss" scoped>
 @import "~@/assets/style/helper.scss";
 
 .numberPad {

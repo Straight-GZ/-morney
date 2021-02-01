@@ -25,7 +25,7 @@ import recordTypeList from '@/constants/recordTypeList';
 
 export default class Money extends Vue {
 
-  record: RecordItem = {tags: [], type: '-', notes: '', amount: '0', createdAt: ''};
+  record: RecordItem = {tags: [], type: '-', notes: '', amount: 0, createdAt: ''};
   recordTypeList = recordTypeList;
 
   get recordList() {
@@ -43,8 +43,8 @@ export default class Money extends Vue {
 }
 
 </script>
-<style lang = "scss">
-.layout-content {
+<style scoped lang = "scss">
+::v-deep .layout-content {
   display: flex;
   flex-direction: column-reverse;
 }
