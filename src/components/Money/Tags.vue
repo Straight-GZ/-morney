@@ -4,7 +4,7 @@
       <button>添加标签</button>
     </div>
     <ul class = "current">
-      <li v-for = "tag in tagList" :class = "{selected:selectedTags.indexOf(tag)>=0}" @click = "toggle(tag)"
+      <li v-for = "tag in tagList" :class = "{selected:value.indexOf(tag)>=0}" @click = "toggle(tag)"
           :key = "tag.id">{{ tag.name }}
       </li>
     </ul>
@@ -13,13 +13,13 @@
 </template>
 
 <script lang = "ts">
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 import {mixins} from 'vue-class-component';
 import TagHelper from '@/mixins/mixins';
 
 @Component
 export default class Tags extends mixins(TagHelper) {
-  selectedTags: Tag[] = [];
+  @Prop() value!: Tag[];
 
   get tagList() {
     return this.$store.state.tagList;
@@ -30,13 +30,13 @@ export default class Tags extends mixins(TagHelper) {
   }
 
   toggle(tag: Tag) {
-    const index = this.selectedTags.indexOf(tag);
-    if (this.selectedTags.indexOf(tag) >= 0) {
-      this.selectedTags.splice(index, 1);
+    const index = this.value.indexOf(tag);
+    if (this.value.indexOf(tag) >= 0) {
+      this.value.splice(index, 1);
     } else {
-      this.selectedTags.push(tag);
+      this.value.push(tag);
     }
-    this.$emit('update:value', this.selectedTags);
+    this.$emit('update:value', this.value);
   }
 }
 </script>

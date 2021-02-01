@@ -2,7 +2,7 @@
   <div>
     <Layout>
       <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
-      <ol>
+      <ol v-if = "groupList.length>0">
         <li v-for = "(group,index) in groupList" :key = "index">
           <h3 class = 'title'>{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
           <ol>
@@ -14,6 +14,9 @@
           </ol>
         </li>
       </ol>
+      <div class = "noResult" v-else>
+        目前没有相关记录
+      </div>
     </Layout>
   </div>
 </template>
@@ -36,7 +39,6 @@ export default class Statistics extends Vue {
   beautify(string: string) {
     const day = dayjs(string);
     const now = dayjs();
-    console.log(now);
     if (day.isSame(now, 'day')) {
       return '今天';
     } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
@@ -51,7 +53,7 @@ export default class Statistics extends Vue {
   }
 
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.join(',');
+    return tags.length === 0 ? '无' : tags.map(i => i.name).join('，');
   }
 
   beforeCreate() {
@@ -90,6 +92,11 @@ export default class Statistics extends Vue {
 }
 </script>
 <style scoped lang = "scss">
+.noResult {
+  padding: 16px;
+  text-align: center;
+}
+
 ::v-deep {
   .types-tabs-item {
     background: #c4c4c4;

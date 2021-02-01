@@ -1,4 +1,6 @@
 type RootStore = {
+  createTagMessage?: string;
+  createRecordError?: null | Error;
   recordList: RecordItem[];
   tagList: Tag[];
   currentTag?: Tag;

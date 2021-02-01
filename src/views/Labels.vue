@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    {{ this.$store.state.createRecordError }}
     <div class = "tags">
       <RouterLink class = "tag" :to = "`./labels/edit/${tag.id}`"
                   v-for = "tag in tags" :key = "tag.id">
