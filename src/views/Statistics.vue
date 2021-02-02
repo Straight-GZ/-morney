@@ -71,7 +71,6 @@ export default class Statistics extends Vue {
       items: RecordItem[];
       total?: number;
     }[]
-    if (recordList.length === 0) {return [];}
     const newList = clone(recordList).filter(item => item.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
     if (newList.length === 0) {return [] as Result;}
     const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];

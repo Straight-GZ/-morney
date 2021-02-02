@@ -6,7 +6,6 @@
       <FormItem name = "备注" placeholder = "请输入备注" :value.sync = "record.notes"/>
     </div>
     <Tags :value.sync = "record.tags"/>
-    {{ record.tags }}
   </Layout>
 </template>
 
@@ -41,6 +40,10 @@ export default class Money extends Vue {
   saveRecord() {
     if (!this.record.tags || this.record.tags.length === 0) {
       return window.alert('请至少选择一个标签');
+    }
+    if (this.record.amount === 0) {
+      const bool = window.confirm('金额为0，确定?');
+      if (!bool) { return; }
     }
     this.$store.commit('createRecord', this.record);
     window.alert('已保存');

@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
+  <div id = "app">
     <router-view/>
   </div>
 </template>
 
-<style lang="scss">
+<style lang = "scss">
 @import '~@/assets/style/reset.scss';
 @import "~@/assets/style/helper.scss";
 
@@ -16,5 +16,7 @@ body {
   color: #333;
   font-size: 16px;
   background: #f4f4f4;
+  touch-action: pan-x pan-y;
+  -webkit-text-size-adjust: none;
 }
 </style>
