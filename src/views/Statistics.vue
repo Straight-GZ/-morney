@@ -1,6 +1,7 @@
 <template>
   <div>
     <Layout>
+      <Chart :options = "x"/>
       <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
       <ol v-if = "groupList.length>0">
         <li v-for = "(group,index) in groupList" :key = "index">
@@ -27,14 +28,43 @@ import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
+import Chart from '@/components/Chart.vue';
 
 
 @Component({
-  components: {Tabs},
+  components: {Chart, Tabs},
 })
 export default class Statistics extends Vue {
   type = '-';
   typeList = recordTypeList;
+
+  get x() {
+    return {
+      xAxis: {
+        type: 'category',
+        data: [
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue'
+        ]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: [
+          150, 230, 224, 218, 135, 147, 260,
+          150, 230, 224, 218, 135, 147, 260,
+          150, 230, 224, 218, 135, 147, 260,
+          150, 230, 224, 218, 135, 147, 260,
+          150, 230
+        ],
+        type: 'line'
+      }]
+    };
+  }
 
   beautify(string: string) {
     const day = dayjs(string);
