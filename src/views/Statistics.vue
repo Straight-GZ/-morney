@@ -1,7 +1,9 @@
 <template>
   <div>
     <Layout>
-      <Chart :options = "x"/>
+      <div class = "chart-wrapper" ref = "chartWrapper">
+        <Chart class = "chart" :options = "x"/>
+      </div>
       <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
       <ol v-if = "groupList.length>0">
         <li v-for = "(group,index) in groupList" :key = "index">
@@ -40,6 +42,10 @@ export default class Statistics extends Vue {
 
   get x() {
     return {
+      grid: {
+        left: 0,
+        right: 0
+      },
       xAxis: {
         type: 'category',
         data: [
@@ -51,7 +57,7 @@ export default class Statistics extends Vue {
         ]
       },
       yAxis: {
-        type: 'value'
+        type: 'value', show: false
       },
       series: [{
         data: [
@@ -84,6 +90,10 @@ export default class Statistics extends Vue {
 
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.map(i => i.name).join('，');
+  }
+
+  mounted() {
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
   }
 
   beforeCreate() {
@@ -121,6 +131,14 @@ export default class Statistics extends Vue {
 }
 </script>
 <style scoped lang = "scss">
+.chart {
+  width: 430%;
+
+  &-wrapper {
+    overflow: auto;
+  }
+}
+
 .noResult {
   padding: 16px;
   text-align: center;
