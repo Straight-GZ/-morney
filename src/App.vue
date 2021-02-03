@@ -19,4 +19,9 @@ body {
   touch-action: pan-x pan-y;
   -webkit-text-size-adjust: none;
 }
+
+#app {
+  max-width: 500px;
+  margin: 0 auto;
+}
 </style>
