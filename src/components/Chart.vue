@@ -1,5 +1,5 @@
 <template>
-  <div id = "wrapper">
+  <div id = 'wrapper' ref = "wrapper">
   </div>
 </template>
 
@@ -7,6 +7,7 @@
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 import * as echarts from 'echarts';
+import {EChartsOption} from 'echarts';
 
 @Component
 export default class Chart extends Vue {
@@ -16,9 +17,9 @@ export default class Chart extends Vue {
     if (this.options === undefined) {
       return console.error('options 为空');
     }
-    const chart = echarts.init(document.querySelector('#wrapper'));
-    chart.setOption(this.options);
 
+    const chart = echarts.init((this.$refs.wrapper as HTMLDivElement));
+    chart.setOption(this.options);
   }
 }
 </script>

@@ -47,19 +47,22 @@ export default class Statistics extends Vue {
         right: 0
       },
       xAxis: {
+        axisTick: {alignWithLabel: true},
         type: 'category',
         data: [
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue'
-        ]
+          '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
+        ],
+        axisLine: {lineStyle: {color: '#666'}}
       },
       yAxis: {
         type: 'value', show: false
       },
       series: [{
+        symbol: 'circle',
+        itemStyle: {color: '#666', borderColor: '#666'},
+        symbolSize: 12,
         data: [
           150, 230, 224, 218, 135, 147, 260,
           150, 230, 224, 218, 135, 147, 260,
@@ -68,7 +71,14 @@ export default class Statistics extends Vue {
           150, 230
         ],
         type: 'line'
-      }]
+      }],
+      tooltip: {
+        show: true, triggerOn: 'click',
+        backgroundColor: '#999999',
+        textStyle: {color: '#363636'},
+        position: 'top',
+        formatter: '{c}'
+      }
     };
   }
 
@@ -136,6 +146,10 @@ export default class Statistics extends Vue {
 
   &-wrapper {
     overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
