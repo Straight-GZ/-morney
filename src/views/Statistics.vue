@@ -2,7 +2,7 @@
   <div>
     <Layout>
       <div class = "chart-wrapper" ref = "chartWrapper">
-        <Chart class = "chart" :options = "x"/>
+        <Chart class = "chart" :options = "chartOptions"/>
       </div>
       <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
       <ol v-if = "groupList.length>0">
@@ -31,6 +31,7 @@ import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
 import Chart from '@/components/Chart.vue';
+import _ from 'lodash';
 
 
 @Component({
@@ -40,7 +41,21 @@ export default class Statistics extends Vue {
   type = '-';
   typeList = recordTypeList;
 
-  get x() {
+  get keyValueList() {
+    const today = new Date();
+    const array = [];
+    for (let i = 0; i <= 29; i++) {
+      const dateString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
+      const found = _.find(this.groupList, {title: dateString});
+      array.push({title: dateString.substr(5), total: found ? found.total : 0});
+    }
+    array.reverse();
+    return array;
+  }
+
+  get chartOptions() {
+    const titles = this.keyValueList.map(item => item.title);
+    const totals = this.keyValueList.map(item => item.total);
     return {
       grid: {
         left: 0,
@@ -49,11 +64,7 @@ export default class Statistics extends Vue {
       xAxis: {
         axisTick: {alignWithLabel: true},
         type: 'category',
-        data: [
-          '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
-        ],
+        data: titles,
         axisLine: {lineStyle: {color: '#666'}}
       },
       yAxis: {
@@ -63,13 +74,7 @@ export default class Statistics extends Vue {
         symbol: 'circle',
         itemStyle: {color: '#666', borderColor: '#666'},
         symbolSize: 12,
-        data: [
-          150, 230, 224, 218, 135, 147, 260,
-          150, 230, 224, 218, 135, 147, 260,
-          150, 230, 224, 218, 135, 147, 260,
-          150, 230, 224, 218, 135, 147, 260,
-          150, 230
-        ],
+        data: totals,
         type: 'line'
       }],
       tooltip: {
@@ -103,7 +108,8 @@ export default class Statistics extends Vue {
   }
 
   mounted() {
-    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+    const div = this.$refs.chartWrapper as HTMLDivElement;
+    div.scrollLeft = div.scrollWidth;
   }
 
   beforeCreate() {
