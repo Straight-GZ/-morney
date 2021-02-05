@@ -10,13 +10,14 @@
       标签
     </router-link>
 
-    <router-link class = "item" active-class = "selected" to = "/home">
-      <Icons name = "statistics"/>
-      图表
-    </router-link>
+
     <router-link class = "item" active-class = "selected" to = "/Statistics">
       <Icons name = "detail"/>
       明细
+    </router-link>
+    <router-link class = "item" active-class = "selected" to = "/home">
+      <Icons name = "statistics"/>
+      图表
     </router-link>
   </nav>
 </template>

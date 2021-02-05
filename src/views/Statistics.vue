@@ -1,9 +1,6 @@
 <template>
   <div>
-    <Layout>
-      <!--      <div class = "chart-wrapper" ref = "chartWrapper">-->
-      <!--        <Chart class = "chart" :options = "chartOptions"/>-->
-      <!--      </div>-->
+    <Layout class = "layout">
       <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
       <ol v-if = "groupList(recordList,type).length>0">
         <li v-for = "(group,index) in groupList(recordList,type)" :key = "index">
@@ -39,57 +36,6 @@ import RecordHelper from '@/mixins/RecordHelper';
 export default class Statistics extends mixins(RecordHelper) {
   type = '-';
   typeList = recordTypeList;
-
-  // get keyValueList() {
-  //   const today = new Date();
-  //   const array = [];
-  //   for (let i = 0; i <= 29; i++) {
-  //     const dateString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
-  //     const found = _.find(this.groupList, {title: dateString});
-  //     array.push({title: dateString.substr(5), total: found ? found.total : 0});
-  //   }
-  //   array.reverse();
-  //   return array;
-  // }
-
-  // get chartOptions() {
-  //   const {titles} = this.keyValueList(this.recordList, this.type, 6);
-  //   const {totals} = this.keyValueList(this.recordList, this.type, 6);
-  //   console.log(titles, totals);
-  //   return {
-  //     title: {
-  //       text: `近7日${this.type === '-' ? '支出' : '收入'}趋势`,
-  //       right: 30
-  //     },
-  //     grid: {
-  //       left: 0,
-  //       right: 0
-  //     },
-  //     xAxis: {
-  //       axisTick: {alignWithLabel: true},
-  //       type: 'category',
-  //       data: titles,
-  //       axisLine: {lineStyle: {color: '#666'}}
-  //     },
-  //     yAxis: {
-  //       type: 'value', show: false
-  //     },
-  //     series: [{
-  //       symbol: 'circle',
-  //       itemStyle: {color: '#666', borderColor: '#666'},
-  //       symbolSize: 12,
-  //       data: totals,
-  //       type: 'line'
-  //     }],
-  //     tooltip: {
-  //       show: true, triggerOn: 'click',
-  //       backgroundColor: '#999999',
-  //       textStyle: {color: '#363636'},
-  //       position: 'top',
-  //       formatter: '{c}'
-  //     }
-  //   };
-  // }
 
   beautify(string: string) {
     const day = dayjs(string);
