@@ -99,51 +99,23 @@ export default class NumberPad extends Vue {
 
   > .buttons {
     @extend %clearFix;
+    $bg: #f2f2f2;
 
     > button {
       width: 20%;
-      height: 64px;
+      height: 40px;
       float: left;
       border: none;
-      background: transparent;
+      background: $bg;
 
       &.ok {
-        height: 64*2px;
+        height: 40*2px;
         float: right;
       }
 
-      $bg: #f2f2f2;
-
-      &:nth-child(1) {
-        background: $bg;
-      }
-
-      &:nth-child(2), &:nth-child(6) {
-        background: darken($bg, 4%);
-      }
-
-      &:nth-child(3), &:nth-child(7), &:nth-child(11) {
-        background: darken($bg, 4*2%);
-      }
-
-      &:nth-child(4), &:nth-child(8), &:nth-child(12), &:nth-child(16) {
-        background: darken($bg, 4*3%);
-      }
-
-      &:nth-child(5), &:nth-child(9), &:nth-child(13), &:nth-child(17) {
-        background: darken($bg, 4*4%);
-      }
-
-      &:nth-child(10), &:nth-child(14), &:nth-child(18) {
-        background: darken($bg, 4*5%);
-      }
-
-      &:nth-child(19) {
-        background: darken($bg, 4*6%);
-      }
-
-      &:nth-child(15) {
+      &:active {
         background: darken($bg, 4*7%);
+        color: white;
       }
     }
   }

@@ -10,6 +10,7 @@
                 :value = "tag.name"
                 name = "标签名" placeholder = "请输入新的标签名"/>
     </div>
+
     <Button @click = "remove">删除标签</Button>
   </div>
 </template>

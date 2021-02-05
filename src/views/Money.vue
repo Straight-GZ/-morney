@@ -8,7 +8,9 @@
     <div class = "notes">
       <FormItem name = "日期" type = "date" placeholder = "请输入日期" :value.sync = "record.createdAt"/>
     </div>
-    <Tags :value.sync = "record.tags"/>
+    <div class = "tags-wrapper">
+      <Tags :value.sync = "record.tags"/>
+    </div>
   </Layout>
 </template>
 
@@ -65,4 +67,6 @@ export default class Money extends Vue {
 .notes {
   padding: 12px 0;
 }
+
+
 </style>

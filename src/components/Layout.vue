@@ -3,7 +3,7 @@
     <div class = "content" :class = "classPrefix&&`${classPrefix}-content`">
       <slot/>
     </div>
-    <Nav/>
+    <Nav class = "nav"/>
   </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
 
 .content {
   flex-grow: 1;
-  overflow: auto;
+  overflow-y: scroll;
 }
+
 </style>

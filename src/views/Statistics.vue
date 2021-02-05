@@ -1,12 +1,12 @@
 <template>
   <div>
     <Layout>
-      <div class = "chart-wrapper" ref = "chartWrapper">
-        <Chart class = "chart" :options = "chartOptions"/>
-      </div>
+      <!--      <div class = "chart-wrapper" ref = "chartWrapper">-->
+      <!--        <Chart class = "chart" :options = "chartOptions"/>-->
+      <!--      </div>-->
       <Tabs class-prefix = "types" :data-source = "typeList" :value.sync = "type"/>
-      <ol v-if = "groupList.length>0">
-        <li v-for = "(group,index) in groupList" :key = "index">
+      <ol v-if = "groupList(recordList,type).length>0">
+        <li v-for = "(group,index) in groupList(recordList,type)" :key = "index">
           <h3 class = 'title'>{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
           <ol>
             <li class = "record" v-for = "item in group.items" :key = "item.id">
@@ -24,68 +24,72 @@
   </div>
 </template>
 <script lang = "ts">
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
-import clone from '@/lib/clone';
 import Chart from '@/components/Chart.vue';
-import _ from 'lodash';
+import {mixins} from 'vue-class-component';
+import RecordHelper from '@/mixins/RecordHelper';
 
 
 @Component({
   components: {Chart, Tabs},
 })
-export default class Statistics extends Vue {
+export default class Statistics extends mixins(RecordHelper) {
   type = '-';
   typeList = recordTypeList;
 
-  get keyValueList() {
-    const today = new Date();
-    const array = [];
-    for (let i = 0; i <= 29; i++) {
-      const dateString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
-      const found = _.find(this.groupList, {title: dateString});
-      array.push({title: dateString.substr(5), total: found ? found.total : 0});
-    }
-    array.reverse();
-    return array;
-  }
+  // get keyValueList() {
+  //   const today = new Date();
+  //   const array = [];
+  //   for (let i = 0; i <= 29; i++) {
+  //     const dateString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
+  //     const found = _.find(this.groupList, {title: dateString});
+  //     array.push({title: dateString.substr(5), total: found ? found.total : 0});
+  //   }
+  //   array.reverse();
+  //   return array;
+  // }
 
-  get chartOptions() {
-    const titles = this.keyValueList.map(item => item.title);
-    const totals = this.keyValueList.map(item => item.total);
-    return {
-      grid: {
-        left: 0,
-        right: 0
-      },
-      xAxis: {
-        axisTick: {alignWithLabel: true},
-        type: 'category',
-        data: titles,
-        axisLine: {lineStyle: {color: '#666'}}
-      },
-      yAxis: {
-        type: 'value', show: false
-      },
-      series: [{
-        symbol: 'circle',
-        itemStyle: {color: '#666', borderColor: '#666'},
-        symbolSize: 12,
-        data: totals,
-        type: 'line'
-      }],
-      tooltip: {
-        show: true, triggerOn: 'click',
-        backgroundColor: '#999999',
-        textStyle: {color: '#363636'},
-        position: 'top',
-        formatter: '{c}'
-      }
-    };
-  }
+  // get chartOptions() {
+  //   const {titles} = this.keyValueList(this.recordList, this.type, 6);
+  //   const {totals} = this.keyValueList(this.recordList, this.type, 6);
+  //   console.log(titles, totals);
+  //   return {
+  //     title: {
+  //       text: `近7日${this.type === '-' ? '支出' : '收入'}趋势`,
+  //       right: 30
+  //     },
+  //     grid: {
+  //       left: 0,
+  //       right: 0
+  //     },
+  //     xAxis: {
+  //       axisTick: {alignWithLabel: true},
+  //       type: 'category',
+  //       data: titles,
+  //       axisLine: {lineStyle: {color: '#666'}}
+  //     },
+  //     yAxis: {
+  //       type: 'value', show: false
+  //     },
+  //     series: [{
+  //       symbol: 'circle',
+  //       itemStyle: {color: '#666', borderColor: '#666'},
+  //       symbolSize: 12,
+  //       data: totals,
+  //       type: 'line'
+  //     }],
+  //     tooltip: {
+  //       show: true, triggerOn: 'click',
+  //       backgroundColor: '#999999',
+  //       textStyle: {color: '#363636'},
+  //       position: 'top',
+  //       formatter: '{c}'
+  //     }
+  //   };
+  // }
 
   beautify(string: string) {
     const day = dayjs(string);
@@ -107,10 +111,6 @@ export default class Statistics extends Vue {
     return tags.length === 0 ? '无' : tags.map(i => i.name).join('，');
   }
 
-  mounted() {
-    const div = this.$refs.chartWrapper as HTMLDivElement;
-    div.scrollLeft = div.scrollWidth;
-  }
 
   beforeCreate() {
     this.$store.commit('fetchRecords');
@@ -119,45 +119,9 @@ export default class Statistics extends Vue {
   get recordList() {
     return (this.$store.state as RootStore).recordList;
   }
-
-  get groupList() {
-    const {recordList} = this;
-    type Result = {
-      title: string;
-      items: RecordItem[];
-      total?: number;
-    }[]
-    const newList = clone(recordList).filter(item => item.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-    if (newList.length === 0) {return [] as Result;}
-    const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
-    for (let i = 1; i < newList.length; i++) {
-      const last = result[result.length - 1];
-      const current = newList[i];
-      if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
-        last.items.push(current);
-      } else {
-        result.push({title: dayjs(newList[i].createdAt).format('YYYY-MM-DD'), items: [newList[i]]});
-      }
-    }
-    result.map(group => {
-      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
-    });
-    return result;
-  }
 }
 </script>
 <style scoped lang = "scss">
-.chart {
-  width: 430%;
-
-  &-wrapper {
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
 
 .noResult {
   padding: 16px;

@@ -16,4 +16,8 @@ export default class TagHelper extends Vue {
       window.alert(map[this.$store.state.createTagMessage]);
     }
   }
+
+
 }
+
+

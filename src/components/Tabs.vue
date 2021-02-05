@@ -1,12 +1,12 @@
 <template>
-  <ul class="tabs">
-    <li v-for="item in dataSource" :key="item.value" @click="select(item)"
-        class="tabs-item" :class="liClass(item)">{{ item.text }}
+  <ul class = "tabs">
+    <li v-for = "item in dataSource" :key = "item.value" @click = "select(item)"
+        class = "tabs-item" :class = "liClass(item)">{{ item.text }}
     </li>
   </ul>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
@@ -26,15 +26,41 @@ export default class Tabs extends Vue {
   }
 
   select(item: DataSourceItem) {
+    console.log('item.value');
+    console.log(item.value);
     this.$emit('update:value', item.value);
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang = "scss" scoped>
+
+
 .tabs {
   display: flex;
   font-size: 24px;
+
+  > .map-tabs-item {
+    font-size: 20px;
+    background: #91cc75;
+    width: 50%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: none;
+
+    &.selected::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      width: 100%;
+      background: yellow;
+    }
+  }
 
   &-item {
     background: #c4c4c4;
