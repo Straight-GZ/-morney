@@ -24,7 +24,6 @@
           <option value = "-">支出</option>
           <option value = "+">收入</option>
         </select>
-
       </label>
       <Chart :options = "y"/>
 
@@ -81,7 +80,6 @@ export default class Home extends Mixins(RecordHelper) {
         y += records[i].amount;
       }
     }
-    console.log(x, y);
     return {x, y};
   }
 
@@ -105,9 +103,12 @@ export default class Home extends Mixins(RecordHelper) {
   get y() {
     this.$store.commit('fetchTags');
     const newList = (clone(this.recordList) as RecordItem[]).filter(i => i.type === this.type)
-        .filter(i => dayjs(i.createdAt).isSame(dayjs(new Date()), 'month'))
-        .sort((b, a) => {return a.tags[0].name.charCodeAt(0) - b.tags[0].name.charCodeAt(0);});
-    const result = [{value: newList[0].amount, name: newList[0].tags[0].name}];
+      .filter(i => dayjs(i.createdAt).isSame(dayjs(new Date()), 'month'))
+      .sort((b, a) => {return a.tags[0].name.charCodeAt(0) - b.tags[0].name.charCodeAt(0);});
+    let result = [{value: 0, name: ''}];
+    if (newList[0]) {
+      result = [{value: newList[0].amount, name: newList[0].tags[0].name}];
+    }
     for (let i = 1; i < newList.length; i++) {
       const last = result[result.length - 1];
       const current = newList[i];
@@ -117,7 +118,6 @@ export default class Home extends Mixins(RecordHelper) {
         result.push({value: newList[i].amount, name: newList[i].tags[0].name});
       }
     }
-    console.log(result);
     return {
       title: {
         text: `各项${this.type === '-' ? '支出' : '收入'}占比`,
@@ -201,14 +201,12 @@ export default class Home extends Mixins(RecordHelper) {
 </script>
 <style scoped lang = "scss">
 .home {
-
   > .text {
     padding: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #fad956;
-
     > label {
       > select {
         background: black;
@@ -217,33 +215,25 @@ export default class Home extends Mixins(RecordHelper) {
       }
     }
   }
-
   > .notes {
     background: #ff4;
     padding: 16px 200px 16px 0;
-
   }
-
   .chart {
     width: 430%;
-
     &-wrapper {
       direction: rtl;
       overflow: auto;
-
       &::-webkit-scrollbar {
         display: none;
       }
     }
   }
 }
-
 .chart {
   width: 430%;
-
   &-wrapper {
     overflow: auto;
-
     &::-webkit-scrollbar {
       display: none;
     }
